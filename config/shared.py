@@ -18,6 +18,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "bootstrap4",
+
+    "user"
 ]
 
 MIDDLEWARE = [
@@ -64,9 +68,11 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
     {
-        "NAME": "user.validators.AdminPasswordValidator",
+        "NAME": "user.utils.validators.AdminPasswordValidator",
     },
 ]
+
+AUTH_USER_MODEL = "user.User"
 
 LANGUAGE_CODE = "en-us"
 
@@ -76,6 +82,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_URL = "/users/auth/"
+
+LOGOUT_REDIRECT_URL = "/users/auth/"

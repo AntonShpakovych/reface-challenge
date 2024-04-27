@@ -10,3 +10,4 @@ exclude =
      **local.py
      **production.py
      **shared.py
+     **migrations
