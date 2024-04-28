@@ -21,7 +21,8 @@ INSTALLED_APPS = [
 
     "bootstrap4",
 
-    "user"
+    "user",
+    "note"
 ]
 
 MIDDLEWARE = [
