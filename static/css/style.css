@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+}
+
+body{
+    position: relative;
 }
 
 /*----------------------------------------------auth------------------------------------------------------------------*/
@@ -158,3 +160,29 @@
 .auth-errors {
     color: red;
 }
+
+.card {
+    flex-basis: 350px;
+    max-width: 350px;
+    font-size: .875rem;
+    background-color: rgba(255, 255, 255, .85);
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .1);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .1);
+    border-radius: .25rem;
+    cursor: pointer;
+}
+.card-title{
+    position: relative;
+}
+#card-title-status{
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+
+.navbar {
+    margin-top: 20px;
+    background-color: white !important;
+}
+

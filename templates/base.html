@@ -13,7 +13,10 @@
   <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
 </head>
 <body>
-{% block content %}{% endblock %}
+<div class="container-fluid">
+  {% csrf_token %}
+  {% block header %}{% endblock %}
+  {% block content %}{% endblock %}
+</div>
 </body>
-<script src="{% static 'js/all_auth.js' %}"></script>
 </html>

@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "bootstrap4",
+    "django_forms_bootstrap",
 
     "user",
     "note"
@@ -93,4 +94,4 @@ LOGIN_URL = "/users/auth/"
 
 LOGOUT_REDIRECT_URL = "/users/auth/"
 
-LOGIN_REDIRECT_URL = "/notes/"
+LOGIN_REDIRECT_URL = "/notes/page/"

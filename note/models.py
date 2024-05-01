@@ -1,8 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
 from django.db import models
 
 from note.utils import constants, messages
+
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -20,7 +24,7 @@ class Category(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"<Category: {self.id}>"
+        return self.name
 
     class Meta:
         ordering = ["name"]
@@ -35,10 +39,8 @@ class Note(models.Model):
     text = models.TextField()
     category = models.ForeignKey(
         Category,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name="notes",
-        null=True,
-        blank=True
     )
     status = models.CharField(
         choices=NoteStatusChoices.choices,
@@ -46,9 +48,14 @@ class Note(models.Model):
         max_length=constants.NOTE_STATUS_MAX_LENGTH
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="notes"
+    )
 
     def __str__(self) -> str:
-        return f"<Note: id={self.id}>"
+        return str(self.id)
 
     class Meta:
         ordering = ["created_at"]

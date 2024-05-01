@@ -7,12 +7,12 @@ from note.models import Category, Note
 @admin.register(Note)
 class NoteAdmin(ModelAdmin):
     list_display = ("id", "status", "created_at", "category")
-    list_filter = ("status", "category", "created_at")
+    list_filter = ("status", "category", "user", "created_at")
     ordering = ("created_at", )
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        return queryset.select_related("category")
+        return queryset.select_related("category", "user")
 
 
 @admin.register(Category)
