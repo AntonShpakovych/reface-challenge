@@ -6,7 +6,7 @@ from note.models import Category, Note
 
 @admin.register(Note)
 class NoteAdmin(ModelAdmin):
-    list_display = ("id", "status", "created_at", "category")
+    list_display = ("id", "status", "created_at", "category", "user")
     list_filter = ("status", "category", "user", "created_at")
     ordering = ("created_at", )
 
