@@ -21,15 +21,15 @@ from note.utils import statuses
 
 class IndexView(mixins.LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, "note/note_list.html")
+        return render(request, "note/page.html")
 
 
 class NoteListView(UserNotesMixin, View):
-    def post(self, request):
+    def get(self, request):
         notes = NoteFilterSortService(
             base_query=self.get_user_notes().select_related("category"),
-            filter=request.POST.get("filter_by"),
-            sort=request.POST.get("sort_by")
+            filter=request.GET.get("filter_by"),
+            sort=request.GET.get("sort_by")
         ).handle_querying().values(
             "pk",
             "text",

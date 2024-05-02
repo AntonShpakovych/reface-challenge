@@ -1,13 +1,13 @@
 function getNotes(){
-    let url = "/notes/"
+
     const noteContainer = document.getElementById("note-container")
     const noteFilterSortForm = document.getElementById("note-filter-sort-form")
     const formData =  new FormData(noteFilterSortForm)
+    const queryParams = new URLSearchParams(formData).toString();
+    let url = "/notes/" + "?" + queryParams
 
     fetch(url, {
-        method: "POST",
-        headers: {"X-CSRFToken": csrfToken},
-        body: formData,
+        method: "GET",
     })
         .then(response => {
             if (response.status === 200){

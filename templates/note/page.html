@@ -4,9 +4,11 @@
 {% block header %}
   {% include "includes/header.html" %}
 {% endblock %}
+
 {% block filter_sort %}
   {% include "includes/note_filter_sort_form.html" %}
 {% endblock %}
+
 {% block content %}
   {% include "includes/note_modal.html" %}
   <div class="container py-3">
@@ -15,6 +17,15 @@
       </div>
     </div>
   </div>
+
+{% endblock %}
+
+{% block pagination %}
+  {% include "includes/pagination.html" %}
+{% endblock %}
+
+
+{% block scripts %}
   <script src="{% static 'js/modal_cleanup.js' %}"></script>
   <script src="{% static 'js/required_element.js' %}"></script>
   <script src="{% static 'js/helpers.js' %}"></script>
