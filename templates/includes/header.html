@@ -1,28 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<div class="container d-flex justify-content-center">
+  <nav class="navbar bg-body-tertiary">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <button onclick="createNote()" id="create-note" type="button" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#note-modal-container">
-          CreateNote
+        <button onclick="createNote()" id="create-note" type="button" class="btn btn-outline-success my-2 my-sm-0"
+                data-toggle="modal" data-target="#note-modal-container">
+          Create
         </button>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Filtering
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
     </ul>
-    {% if user.is_authenticated%}
+    {% if user.is_authenticated %}
       <form action="{% url 'user:auth-logout' %}" method="post">
         {% csrf_token %}
-        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+        <button class="btn btn-outline-danger my-2 my-sm-0 ml-3" type="submit">Logout</button>
       </form>
     {% endif %}
-  </div>
-</nav>
+  </nav>
+</div>

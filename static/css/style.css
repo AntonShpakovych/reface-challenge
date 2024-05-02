@@ -187,3 +187,8 @@ body{
     margin-top: 20px;
     background-color: white !important;
 }
+/*----------------------------------------------filter/sort-----------------------------------------------------------*/
+#filter-sorter-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}

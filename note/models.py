@@ -1,3 +1,5 @@
+from typing import re
+
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
@@ -58,4 +60,4 @@ class Note(models.Model):
         return str(self.id)
 
     class Meta:
-        ordering = ["created_at"]
+        ordering = ["-created_at"]

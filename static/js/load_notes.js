@@ -1,11 +1,15 @@
-setInterval(getNotes, 1000)
-
 function getNotes(){
-    const url = "/notes"
+    let url = "/notes/"
     const noteContainer = document.getElementById("note-container")
+    const noteFilterSortForm = document.getElementById("note-filter-sort-form")
+    const formData =  new FormData(noteFilterSortForm)
+
+    console.log(csrfToken)
 
     fetch(url, {
-        method: "GET"
+        method: "POST",
+        headers: {"X-CSRFToken": csrfToken},
+        body: formData,
     })
         .then(response => {
             if (response.status === 200){
@@ -15,9 +19,9 @@ function getNotes(){
             }
         })
         .then(data => {
-
             noteContainer.innerHTML = ""
-            JSON.parse(data.payload).forEach(note =>{
+
+            JSON.parse(data.payload.notes).forEach(note =>{
                 let noteHtml = generateNoteHtml(note)
                 noteContainer.innerHTML += noteHtml
             })
@@ -26,3 +30,6 @@ function getNotes(){
             noteContainer.innerHTML = "<h1>With these filters, you don't have notes, or you don't have any at all</h1>"
         });
 }
+addEventListener("DOMContentLoaded", (event) => {
+    setInterval(getNotes, 1000);
+});

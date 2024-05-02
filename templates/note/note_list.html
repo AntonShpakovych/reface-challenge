@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load  static %}
+
 {% block header %}
   {% include "includes/header.html" %}
+{% endblock %}
+{% block filter_sort %}
+  {% include "includes/note_filter_sort_form.html" %}
 {% endblock %}
 {% block content %}
   {% include "includes/note_modal.html" %}

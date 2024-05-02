@@ -6,3 +6,10 @@ CATEGORY_COLOR_CODE = "invalid_color"
 NOTE_STATUS_MAX_LENGTH = 8
 NODE_STATUS_ACTIVE_DB = "Active"
 NODE_STATUS_ARCHIVED_DB = "Archived"
+
+NOTE_SORT_CHOICES_FORM = (
+    ("created_at", "Date"),
+    ("word_count", "Word Count"),
+    ("unique_word_count", "Unique Word Count"),
+    ("category", "Category")
+)

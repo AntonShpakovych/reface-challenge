@@ -16,6 +16,7 @@
 <div class="container-fluid">
   {% csrf_token %}
   {% block header %}{% endblock %}
+  {% block filter_sort %}{% endblock %}
   {% block content %}{% endblock %}
 </div>
 </body>

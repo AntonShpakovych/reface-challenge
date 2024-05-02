@@ -7,8 +7,13 @@ from django.shortcuts import render
 from django.views import View
 
 
-from note.forms import NoteCreateForm, NoteUpdateForm, CategoryCreateForm
+from note.forms import (
+    NoteCreateForm,
+    NoteUpdateForm,
+    CategoryCreateForm,
+)
 from note.mixins import UserNotesMixin
+from note.utils.note_filter_sort_service import NoteFilterSortService
 
 from note.utils.process_forms_validation import process_forms_validation
 from note.utils import statuses
@@ -20,8 +25,12 @@ class IndexView(mixins.LoginRequiredMixin, View):
 
 
 class NoteListView(UserNotesMixin, View):
-    def get(self, request):
-        notes = self.get_user_notes_with_category().values(
+    def post(self, request):
+        notes = NoteFilterSortService(
+            base_query=self.get_user_notes().select_related("category"),
+            filter=request.POST.get("filter_by"),
+            sort=request.POST.get("sort_by")
+        ).handle_querying().values(
             "pk",
             "text",
             "status",
@@ -31,7 +40,11 @@ class NoteListView(UserNotesMixin, View):
 
         if notes:
             return JsonResponse(
-                data={"payload": json.dumps(list(notes))},
+                data={
+                    "payload": {
+                        "notes": json.dumps(list(notes)),
+                    }
+                },
                 status=statuses.HTTP_200_OK
             )
         return JsonResponse(data={}, status=statuses.HTTP_404_NOT_FOUND)
@@ -50,7 +63,9 @@ class DeleteNoteView(UserNotesMixin, View):
 
 class DetailNoteView(UserNotesMixin, View):
     def get(self, request, pk):
-        note = self.get_user_notes_with_category().values(
+        note = self.get_user_notes().select_related(
+            "category"
+        ).values(
             "text",
             "status",
             "created_at",
@@ -96,7 +111,7 @@ class CreateNoteView(View):
 
 class UpdateNoteView(UserNotesMixin, View):
     def get(self, request, pk):
-        note = self.get_user_note_with_category(pk=pk)
+        note = self.get_object(pk=pk)
 
         if note:
             note_form = NoteUpdateForm(instance=note)
@@ -115,7 +130,7 @@ class UpdateNoteView(UserNotesMixin, View):
         return JsonResponse(data={}, status=statuses.HTTP_404_NOT_FOUND)
 
     def post(self, request, pk):
-        note = self.get_user_note_with_category(pk=pk)
+        note = self.get_object(pk=pk)
         note_form = NoteUpdateForm(request.POST, instance=note)
         category_form = CategoryCreateForm(request.POST)
 
@@ -123,5 +138,11 @@ class UpdateNoteView(UserNotesMixin, View):
             note_form=note_form,
             category_form=category_form,
             user=request.user,
-            valid_status=statuses.HTTP_200_OK
+            valid_status=statuses.HTTP_200_OK,
+            is_create=False
         )
+
+    def get_object(self, pk):
+        return self.get_user_notes().select_related(
+            "category"
+        ).filter(pk=pk).first()

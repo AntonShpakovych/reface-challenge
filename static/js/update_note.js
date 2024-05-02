@@ -9,7 +9,7 @@ function updateNote(pk) {
     formContainer.addEventListener("submit", (event) => {
         handleFormsSubmission(event, url)
 
-        if (errorsContainer.innerHTML === "") {
+        if (!errorsContainer) {
             setTimeout(() => {
                 formContainer.innerHTML = " "
                 fillFormContainer(formContainer, url)

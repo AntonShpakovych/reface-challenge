@@ -1,7 +1,13 @@
 from django.http import JsonResponse
 
 
-def process_forms_validation(note_form, category_form, user, valid_status):
+def process_forms_validation(
+    note_form,
+    category_form,
+    user,
+    valid_status,
+    is_create=True
+):
     if not note_form.is_valid():
         return JsonResponse(
             data={"payload": note_form.errors.as_json()},
@@ -22,8 +28,8 @@ def process_forms_validation(note_form, category_form, user, valid_status):
             status=400
         )
 
-    # In the case of an update, I also do this action, for simplicity
-    note.user = user
+    if is_create:
+        note.user = user
     note.save()
 
     return JsonResponse(data={}, status=valid_status)
