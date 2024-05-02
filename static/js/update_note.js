@@ -14,6 +14,8 @@ function updateNote(pk) {
                 formContainer.innerHTML = " "
                 fillFormContainer(formContainer, url)
             }, 1000)
+
+            updateNotes()
         }
 
     })

@@ -4,8 +4,6 @@ function getNotes(){
     const noteFilterSortForm = document.getElementById("note-filter-sort-form")
     const formData =  new FormData(noteFilterSortForm)
 
-    console.log(csrfToken)
-
     fetch(url, {
         method: "POST",
         headers: {"X-CSRFToken": csrfToken},
@@ -31,5 +29,9 @@ function getNotes(){
         });
 }
 addEventListener("DOMContentLoaded", (event) => {
-    setInterval(getNotes, 1000);
+    const timeForLookingDbUpdates = 60 * 1000
+    // Initial FETCH
+    getNotes()
+    // Looking for db updates
+    setInterval(getNotes, timeForLookingDbUpdates);
 });

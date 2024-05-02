@@ -122,3 +122,7 @@ function generateNoteHtml(note) {
       </div>
     </div>`
 }
+
+function updateNotes() {
+    setTimeout(getNotes, 1000)
+}

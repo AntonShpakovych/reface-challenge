@@ -8,6 +8,7 @@ function deleteNote(notePk) {
         .then(response => {
             if (response.status === 204) {
                 alert("You successfully deleted note!")
+                updateNotes()
             } else {
                 alert("You can't do this:)")
             }
