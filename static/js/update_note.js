@@ -15,7 +15,7 @@ function updateNote(pk) {
                 fillFormContainer(formContainer, url)
             }, 1000)
 
-            updateNotes()
+            fetchNotes()
         }
 
     })

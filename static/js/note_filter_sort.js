@@ -1,3 +1,3 @@
 function noteFilterSort(){
-    updateNotes()
+    fetchNotes()
 }
