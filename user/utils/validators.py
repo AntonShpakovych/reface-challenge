@@ -3,14 +3,14 @@ import re
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from user.utils import messages, constants
+from user.utils import messages
 
 
 def password_validator(value: str) -> None:
     """
     Validate the password value against certain criteria.
     """
-    min_length = constants.PASSWORD_MIN_LENGTH
+    min_length = 8
 
     pattern = fr"^(?=.*?[A-Z])" \
               fr"(?=.*?[a-z])" \

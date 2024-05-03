@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from user.manager import UserManager
-from user.utils import validators, constants
+from user.utils import validators
 
 
 class User(AbstractUser):
@@ -10,8 +10,9 @@ class User(AbstractUser):
 
     email = models.EmailField(unique=True)
     password = models.CharField(
-        max_length=constants.PASSWORD_MAX_LENGTH,
-        validators=[validators.password_validator]
+        validators=[
+            validators.password_validator
+        ]
     )
 
     USERNAME_FIELD = "email"

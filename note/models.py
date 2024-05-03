@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
 from django.db import models
 
-from note.utils import constants, messages
+from note.utils import messages
 
 
 User = get_user_model()
@@ -12,15 +12,15 @@ User = get_user_model()
 class Category(models.Model):
     name = models.CharField(
         unique=True,
-        max_length=constants.CATEGORY_NAME_MAX_LENGTH
+        max_length=15
     )
     color = models.CharField(
         validators=[RegexValidator(
-            regex=constants.CATEGORY_COLOR_PATTERN,
+            regex=r"^#[0-9A-F]{6}$",
             message=messages.CATEGORY_COLOR_VALIDATION,
-            code=constants.CATEGORY_COLOR_CODE
+            code="invalid_color"
         )],
-        max_length=constants.CATEGORY_COLOR_MAX_LENGTH
+        max_length=7
     )
 
     def __str__(self) -> str:
@@ -34,8 +34,8 @@ class Category(models.Model):
 
 class Note(models.Model):
     class NoteStatusChoices(models.TextChoices):
-        ACTIVE = constants.NODE_STATUS_ACTIVE_DB, _("Active")
-        ARCHIVED = constants.NODE_STATUS_ARCHIVED_DB, _("Archived")
+        ACTIVE = "Active", _("Active")
+        ARCHIVED = "Archived", _("Archived")
 
     text = models.TextField()
     category = models.ForeignKey(
@@ -46,7 +46,7 @@ class Note(models.Model):
     status = models.CharField(
         choices=NoteStatusChoices.choices,
         default=NoteStatusChoices.ACTIVE,
-        max_length=constants.NOTE_STATUS_MAX_LENGTH
+        max_length=8
     )
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
