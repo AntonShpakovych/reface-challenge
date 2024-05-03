@@ -19,6 +19,7 @@ from note.utils.pagination_service import NotePaginationService
 
 from note.utils.process_forms_validation import process_forms_validation
 from note.utils import statuses
+from note.utils import constants
 
 
 class IndexView(mixins.LoginRequiredMixin, View):
@@ -33,7 +34,7 @@ class NoteListView(UserNotesMixin, View):
     """
     A view class for listing notes associated with the current user.
     """
-    paginated_by = 3
+    paginated_by = constants.NOTES_PAGINATED_BY
 
     def get(self, request: HttpRequest) -> JsonResponse:
         notes = NoteFilterSortService(
