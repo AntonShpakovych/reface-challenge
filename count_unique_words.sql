@@ -12,4 +12,4 @@ BEGIN
 END;
 $$;
 
-alter function count_unique_words(text) owner to postgres;
+ALTER FUNCTION count_unique_words(text) OWNER TO :owner;
