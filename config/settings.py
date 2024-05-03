@@ -10,5 +10,5 @@ DEBUG = os.getenv("DJANGO_DEBUG_MODE") == "True"
 if DEBUG:
     from .local import *
 else:
-    # from .production import *
-    pass
+    from .production import *
+
