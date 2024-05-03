@@ -16,3 +16,5 @@ if settings.DEBUG:
         settings.STATIC_URL,
         document_root=settings.STATIC_ROOT
     )
+
+handler404 = views.handler_404
