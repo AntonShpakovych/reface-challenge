@@ -7,5 +7,4 @@ pip install -r requirements.txt
 python manage.py collectstatic --no-input
 python manage.py migrate
 
-psql -d cornelius -U pepipugb  -W -f ./count_unique_words.sql
-psql -d cornelius -U pepipugb  -W -f ./count_words.sql
+psql PGPASSWORD="$DATABASE_PASSWORD" psql -h "$DATABASE_HOST" -U "$DATABASE_USER" "$DATABASE_NAME" -W -f ./count_words.sql
