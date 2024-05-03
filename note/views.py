@@ -2,7 +2,7 @@ import json
 
 from django.shortcuts import render
 from django.contrib.auth import mixins
-from django.http import JsonResponse, HttpRequest
+from django.http import JsonResponse, HttpRequest, HttpResponse
 from django.db.models import F
 from django.views import View
 
@@ -25,7 +25,7 @@ class IndexView(mixins.LoginRequiredMixin, View):
     """
     A view class for rendering the index page.
     """
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         return render(request, "note/page.html")
 
 
