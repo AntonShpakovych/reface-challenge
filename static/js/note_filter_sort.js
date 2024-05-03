@@ -1,3 +1,4 @@
 function noteFilterSort(){
+    initializeFilterSortQueryParams()
     fetchNotes()
 }

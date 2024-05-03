@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth import mixins
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -14,6 +15,7 @@ from note.forms import (
 )
 from note.mixins import UserNotesMixin
 from note.utils.note_filter_sort_service import NoteFilterSortService
+from note.utils.pagination_service import NotePaginationService
 
 from note.utils.process_forms_validation import process_forms_validation
 from note.utils import statuses
@@ -25,6 +27,8 @@ class IndexView(mixins.LoginRequiredMixin, View):
 
 
 class NoteListView(UserNotesMixin, View):
+    paginated_by = 3
+
     def get(self, request):
         notes = NoteFilterSortService(
             base_query=self.get_user_notes().select_related("category"),
@@ -38,11 +42,15 @@ class NoteListView(UserNotesMixin, View):
             category_color=F("category__color")
         )
 
+        paginator = NotePaginationService(notes, self.paginated_by)
+        print()
         if notes:
             return JsonResponse(
                 data={
                     "payload": {
-                        "notes": json.dumps(list(notes)),
+                        "paginator": paginator.split_data_for_js(
+                            request.GET.get("page")
+                        )
                     }
                 },
                 status=statuses.HTTP_200_OK

@@ -1,2 +1,3 @@
 const modalBodyContainer = document.getElementById("modal-body-container")
-const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value
+const globalQueryParams = new URLSearchParams()

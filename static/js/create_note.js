@@ -7,7 +7,6 @@ function createNote(){
 
     formContainer.addEventListener("submit", (event)=>{
         handleFormsSubmission(event, url)
-
         fetchNotes()
     })
 }

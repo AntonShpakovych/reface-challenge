@@ -123,6 +123,17 @@ function generateNoteHtml(note) {
     </div>`
 }
 
+
+function initializeFilterSortQueryParams(){
+    const noteFilterSortForm = document.getElementById("note-filter-sort-form")
+    const formData = new FormData(noteFilterSortForm)
+
+    for (const [key, value] of formData.entries()) {
+        globalQueryParams.set(key, value);
+    }
+}
+
+
 function fetchNotes() {
     setTimeout(getNotes, 500)
 }

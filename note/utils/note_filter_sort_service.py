@@ -7,11 +7,11 @@ class NoteFilterSortService:
         "created_at": lambda base_query: base_query.order_by("-created_at"),
         "word_count": lambda base_query: base_query.annotate(
             count_word=CountWords("text")
-        ).order_by("count_word"),
+        ).order_by("-count_word"),
         "category": lambda base_query: base_query.order_by("category"),
         "unique_word_count": lambda base_query: base_query.annotate(
             count_unique_words=CountUniqueWords("text")
-        ).order_by("count_unique_words")
+        ).order_by("-count_unique_words")
     }
 
     def __init__(self, filter, sort, base_query):
