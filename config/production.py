@@ -3,6 +3,8 @@ import dj_database_url
 from .shared import *
 
 
+ALLOWED_HOSTS = ["reface-challenge.onrender.com"]
+
 DATABASES = {
     "default": dj_database_url.config(
         default=os.getenv("ELEPHANT_POSTGRESQL_URL"),
