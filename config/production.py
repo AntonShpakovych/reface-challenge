@@ -7,7 +7,7 @@ ALLOWED_HOSTS = ["reface-challenge.onrender.com"]
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.getenv("ELEPHANT_POSTGRESQL_URL"),
+        default=os.getenv("POSTGRESQL_URL"),
         conn_max_age=600
     )
 }
