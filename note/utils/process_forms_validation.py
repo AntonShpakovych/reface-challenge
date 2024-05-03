@@ -1,13 +1,21 @@
+from django.contrib.auth import get_user_model
 from django.http import JsonResponse
+from note.forms import CategoryCreateForm, NoteCreateForm, NoteUpdateForm
+
+
+User = get_user_model()
 
 
 def process_forms_validation(
-    note_form,
-    category_form,
-    user,
-    valid_status,
-    is_create=True
-):
+    note_form: NoteCreateForm | NoteUpdateForm,
+    category_form: CategoryCreateForm,
+    user: User,
+    valid_status: int,
+    is_create: bool = True
+) -> JsonResponse:
+    """
+    Process validation for note and category forms and save or update data
+    """
     if not note_form.is_valid():
         return JsonResponse(
             data={"payload": note_form.errors.as_json()},

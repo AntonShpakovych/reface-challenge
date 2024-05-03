@@ -2,7 +2,10 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 class NotePaginationService(Paginator):
-    def split_data_for_js(self, page_number):
+    """
+    A service class for paginating notes data.
+    """
+    def split_data_for_js(self, page_number: str) -> dict:
         page = None
 
         try:

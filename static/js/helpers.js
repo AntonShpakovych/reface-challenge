@@ -6,7 +6,7 @@ function createFormAlertContainer(id, className) {
     return container
 }
 
-function createFormContainer(){
+function createFormContainer() {
     const formContainer = document.createElement("form")
 
     formContainer.id = "form-container"
@@ -34,7 +34,7 @@ function fillFormContainer(formContainer, url) {
     })
         .then(response => response.json())
         .then(data => {
-            const { note_form, category_form } = data.payload;
+            const {note_form, category_form} = data.payload;
             const submitButton = '<button id="submit-note-form" class="btn btn-success">Submit</button>';
             const helpText = "<p>Or you can create a new Category:</p>";
 
@@ -57,7 +57,7 @@ function handleFormsSubmission(event, url) {
             return Promise.all([response.status, response.json()])
         })
         .then(([status, data]) => {
-            if (status === 201 || status === 200){
+            if (status === 201 || status === 200) {
                 const statusMessage = status === 201 ? "created" : "updated"
                 handleUserNotification(statusMessage)
             } else {
@@ -72,12 +72,16 @@ function handleHtmlErrors(errors) {
 
     for (const field in errorsToObject) {
         const message = errorsToObject[field][0]["message"]
-        html += `<ul><li>${field}<ul><li>${message}</li></ul></li></ul>`;
+        if (field === "__all__") {
+            html += `<ul><li>${message}</li></ul>`;
+        } else {
+            html += `<ul><li>${field}<ul><li>${message}</li></ul></li></ul>`;
+        }
     }
     return html
 }
 
-function handleUserNotification(status= null, isValid = true, data = null) {
+function handleUserNotification(status = null, isValid = true, data = null) {
     const successContainer = document.getElementById("form-success");
     const errorsContainer = document.getElementById("form-errors");
 
@@ -107,7 +111,7 @@ function generateNoteHtml(note) {
         </div>
         <hr>
         <div class="card-body">
-            <div class="text-muted description"><small>text: </small>${note.text.slice(0,20)}...</div>
+            <div class="text-muted description"><small>text: </small>${note.text.slice(0, 20)}...</div>
             <div class="d-flex align-items-center justify-content-between pt-3">
                 <button onclick="getNote(${note.pk})" type="button" class="detail-note btn btn-primary" data-toggle="modal" data-target="#note-modal-container">
                     Detail
@@ -124,7 +128,7 @@ function generateNoteHtml(note) {
 }
 
 
-function initializeFilterSortQueryParams(){
+function initializeFilterSortQueryParams() {
     const noteFilterSortForm = document.getElementById("note-filter-sort-form")
     const formData = new FormData(noteFilterSortForm)
 

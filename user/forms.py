@@ -1,19 +1,21 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
+from user.utils import messages
+
 
 class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["email"].widget.attrs[
             "placeholder"
-        ] = "Enter your email"
+        ] = messages.ENTER_EMAIL_PLACEHOLDER
         self.fields["password1"].widget.attrs[
             "placeholder"
-        ] = "Create your password"
+        ] = messages.ENTER_PASSWORD_PLACEHOLDER
         self.fields["password2"].widget.attrs[
             "placeholder"
-        ] = "Confirm your password"
+        ] = messages.CONFIRM_PASSWORD_PLACEHOLDER
 
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
@@ -23,5 +25,9 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomAuthenticationForm(AuthenticationForm):
     def __init__(self, request=None, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
-        self.fields["username"].widget.attrs["placeholder"] = "Enter email"
-        self.fields["password"].widget.attrs["placeholder"] = "Enter password"
+        self.fields["username"].widget.attrs[
+            "placeholder"
+        ] = messages.ENTER_EMAIL_PLACEHOLDER
+        self.fields["password"].widget.attrs[
+            "placeholder"
+        ] = messages.ENTER_PASSWORD_PLACEHOLDER

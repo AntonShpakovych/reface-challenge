@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -7,6 +8,9 @@ from user.forms import CustomUserCreationForm, CustomAuthenticationForm
 
 
 class LoginOrSignUp(View):
+    """
+    A view class for handling user login or sign-up at the same page.
+    """
     login_object_name = "form_login"
     signup_object_name = "form_signup"
     form_to_render_name = "form_to_render"
@@ -14,13 +18,13 @@ class LoginOrSignUp(View):
     login_form_class = CustomAuthenticationForm
     signup_form_class = CustomUserCreationForm
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         return render(request, self.template_name, context={
             self.login_object_name: self.login_form_class(request=request),
             self.signup_object_name: self.signup_form_class()
         })
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
         form = (
             self.login_form_class(data=request.POST, request=request)
             if self.is_form_login(request=request)
@@ -31,17 +35,25 @@ class LoginOrSignUp(View):
             return self._form_valid(request=request, form=form)
         return self._form_invalid(request, form=form)
 
-    def is_form_login(self, request):
+    def is_form_login(self, request: HttpRequest) -> bool:
         return self.login_object_name in request.POST
 
-    def _handle_form_valid(self, request, form):
+    def _handle_form_valid(
+        self,
+        request: HttpRequest,
+        form: CustomAuthenticationForm | CustomUserCreationForm
+    ) -> None:
         if self.is_form_login(request=request):
             login(request, user=form.get_user())
         else:
             form.save()
             login(request, user=form.instance)
 
-    def _hande_form_invalid(self, request, form):
+    def _hande_form_invalid(
+        self,
+        request: HttpRequest,
+        form: CustomAuthenticationForm | CustomUserCreationForm
+    ) -> dict:
         if self.is_form_login(request=request):
             return {
                 self.login_object_name: form,
@@ -54,10 +66,18 @@ class LoginOrSignUp(View):
             self.form_to_render_name: self.signup_object_name
         }
 
-    def _form_valid(self, request, form):
+    def _form_valid(
+        self,
+        request: HttpRequest,
+        form: CustomAuthenticationForm | CustomUserCreationForm
+    ) -> HttpResponseRedirect:
         self._handle_form_valid(request=request, form=form)
         return redirect(LOGIN_REDIRECT_URL)
 
-    def _form_invalid(self, request, form):
+    def _form_invalid(
+        self,
+        request: HttpRequest,
+        form: CustomAuthenticationForm | CustomUserCreationForm
+    ) -> HttpResponse:
         context = self._hande_form_invalid(request, form=form)
         return render(request, self.template_name, context=context)

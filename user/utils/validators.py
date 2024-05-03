@@ -6,7 +6,10 @@ from django.utils.translation import gettext_lazy as _
 from user.utils import messages, constants
 
 
-def password_validator(value):
+def password_validator(value: str) -> None:
+    """
+    Validate the password value against certain criteria.
+    """
     min_length = constants.PASSWORD_MIN_LENGTH
 
     pattern = fr"^(?=.*?[A-Z])" \
@@ -23,8 +26,11 @@ def password_validator(value):
 
 
 class AdminPasswordValidator:
-    def validate(self, password, user=None):
+    """
+    A password validator for administrative users.
+    """
+    def validate(self, password: str, user=None) -> None:
         password_validator(password)
 
-    def get_help_text(self):
+    def get_help_text(self) -> str:
         return _(messages.USER_PASSWORD_VALIDATION)

@@ -1,10 +1,9 @@
 import json
 
-from django.contrib.auth import mixins
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import F
-from django.http import JsonResponse
 from django.shortcuts import render
+from django.contrib.auth import mixins
+from django.http import JsonResponse, HttpRequest
+from django.db.models import F
 from django.views import View
 
 
@@ -14,6 +13,7 @@ from note.forms import (
     CategoryCreateForm,
 )
 from note.mixins import UserNotesMixin
+from note.models import Note
 from note.utils.note_filter_sort_service import NoteFilterSortService
 from note.utils.pagination_service import NotePaginationService
 
@@ -22,14 +22,20 @@ from note.utils import statuses
 
 
 class IndexView(mixins.LoginRequiredMixin, View):
+    """
+    A view class for rendering the index page.
+    """
     def get(self, request):
         return render(request, "note/page.html")
 
 
 class NoteListView(UserNotesMixin, View):
+    """
+    A view class for listing notes associated with the current user.
+    """
     paginated_by = 3
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> JsonResponse:
         notes = NoteFilterSortService(
             base_query=self.get_user_notes().select_related("category"),
             filter=request.GET.get("filter_by"),
@@ -38,12 +44,11 @@ class NoteListView(UserNotesMixin, View):
             "pk",
             "text",
             "status",
-            "user",
             category_color=F("category__color")
         )
 
         paginator = NotePaginationService(notes, self.paginated_by)
-        print()
+
         if notes:
             return JsonResponse(
                 data={
@@ -59,7 +64,10 @@ class NoteListView(UserNotesMixin, View):
 
 
 class DeleteNoteView(UserNotesMixin, View):
-    def delete(self, request, pk):
+    """
+    A view class for deleting a note associated with the current user.
+    """
+    def delete(self, request: HttpRequest, pk: int) -> JsonResponse:
         note = self.get_user_notes().filter(pk=pk).first()
 
         if note:
@@ -70,7 +78,11 @@ class DeleteNoteView(UserNotesMixin, View):
 
 
 class DetailNoteView(UserNotesMixin, View):
-    def get(self, request, pk):
+    """
+    A view class for retrieving details of a note
+    associated with the current user.
+    """
+    def get(self, request: HttpRequest, pk: int) -> JsonResponse:
         note = self.get_user_notes().select_related(
             "category"
         ).values(
@@ -91,7 +103,10 @@ class DetailNoteView(UserNotesMixin, View):
 
 
 class CreateNoteView(View):
-    def get(self, request):
+    """
+    A view class for creating a new note
+    """
+    def get(self, request: HttpRequest) -> JsonResponse:
         note_form = NoteCreateForm()
         category_form = CategoryCreateForm()
 
@@ -105,7 +120,7 @@ class CreateNoteView(View):
             status=statuses.HTTP_200_OK
         )
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> JsonResponse:
         note_form = NoteCreateForm(request.POST)
         category_form = CategoryCreateForm(request.POST)
 
@@ -118,7 +133,11 @@ class CreateNoteView(View):
 
 
 class UpdateNoteView(UserNotesMixin, View):
-    def get(self, request, pk):
+    """
+    A view class for updating an existing note
+    associated with the current user.
+    """
+    def get(self, request: HttpRequest, pk: int) -> JsonResponse:
         note = self.get_object(pk=pk)
 
         if note:
@@ -137,7 +156,7 @@ class UpdateNoteView(UserNotesMixin, View):
 
         return JsonResponse(data={}, status=statuses.HTTP_404_NOT_FOUND)
 
-    def post(self, request, pk):
+    def post(self, request: HttpRequest, pk: int) -> JsonResponse:
         note = self.get_object(pk=pk)
         note_form = NoteUpdateForm(request.POST, instance=note)
         category_form = CategoryCreateForm(request.POST)
@@ -150,7 +169,7 @@ class UpdateNoteView(UserNotesMixin, View):
             is_create=False
         )
 
-    def get_object(self, pk):
+    def get_object(self, pk: int) -> Note | None:
         return self.get_user_notes().select_related(
             "category"
         ).filter(pk=pk).first()

@@ -1,7 +1,12 @@
+from django.db.models import QuerySet
+
 from note.db_functions import CountWords, CountUniqueWords
 
 
 class NoteFilterSortService:
+    """
+    A service class for filtering and sorting notes.
+    """
     AVAILABLE_FILTERS = ["Active", "Archived"]
     AVAILABLE_SORTS = {
         "created_at": lambda base_query: base_query.order_by("-created_at"),
@@ -14,12 +19,12 @@ class NoteFilterSortService:
         ).order_by("-count_unique_words")
     }
 
-    def __init__(self, filter, sort, base_query):
+    def __init__(self, filter: str, sort: str, base_query: QuerySet) -> None:
         self.filter = filter
         self.sort = sort
         self.base_query = base_query
 
-    def handle_querying(self):
+    def handle_querying(self) -> QuerySet:
         query = self.base_query
 
         if self.filter in self.AVAILABLE_FILTERS:

@@ -1,5 +1,3 @@
-from typing import re
-
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
@@ -30,6 +28,7 @@ class Category(models.Model):
 
     class Meta:
         ordering = ["name"]
+        unique_together = ["name", "color"]
         verbose_name_plural = "Categories"
 
 

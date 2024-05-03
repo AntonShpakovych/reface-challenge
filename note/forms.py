@@ -3,6 +3,7 @@ from django import forms
 from note.models import Note, Category
 from note import mixins
 from note.utils.constants import NOTE_SORT_CHOICES_FORM
+from note.utils import messages
 
 
 class NoteCreateForm(mixins.BootstrapFormClasses, forms.ModelForm):
@@ -26,6 +27,14 @@ class CategoryCreateForm(mixins.BootstrapFormClasses, forms.ModelForm):
     class Meta:
         model = Category
         fields = ["name", "color"]
+        widgets = {
+            "name": forms.TextInput(
+                attrs={"placeholder": messages.CATEGORY_NAME_PLACEHOLDER}
+            ),
+            "color": forms.TextInput(
+                attrs={"placeholder": messages.CATEGORY_COLOR_PLACEHOLDER}
+            )
+        }
 
 
 class NoteFilterSorterForm(mixins.BootstrapFormClasses, forms.Form):
