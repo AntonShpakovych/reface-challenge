@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load  static %}
+
+{% block header %}
+  {% include "includes/header.html" %}
+{% endblock %}
+
+{% block filter_sort %}
+  {% include "includes/note_filter_sort_form.html" %}
+{% endblock %}
+
+{% block content %}
+  {% include "includes/note_modal.html" %}
+  <div class="container py-3">
+    <div id="note-list">
+      <div id="note-container" class="row">
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block pagination %}
+  {% include "includes/pagination.html" %}
+{% endblock %}
+
+
+{% block scripts %}
+  <script src="{% static 'js/modal_cleanup.js' %}"></script>
+  <script src="{% static 'js/required_element.js' %}"></script>
+  <script src="{% static 'js/helpers.js' %}"></script>
+  <script src="{% static 'js/pagination.js' %}"></script>
+  <script src="{% static 'js/load_notes.js' %}"></script>
+  <script src="{% static 'js/note_filter_sort.js' %}"></script>
+  <script src="{% static 'js/create_note.js' %}"></script>
+  <script src="{% static 'js/update_note.js' %}"></script>
+  <script src="{% static 'js/delete_note.js' %}"></script>
+  <script src="{% static 'js/detail_note.js' %}"></script>
+{% endblock %}

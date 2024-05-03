@@ -1,0 +1,18 @@
+<div class="container d-flex justify-content-center">
+  <nav class="navbar bg-body-tertiary">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <button onclick="createNote()" id="create-note" type="button" class="btn btn-outline-success my-2 my-sm-0"
+                data-toggle="modal" data-target="#note-modal-container">
+          Create
+        </button>
+      </li>
+    </ul>
+    {% if user.is_authenticated %}
+      <form action="{% url 'user:auth-logout' %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-outline-danger my-2 my-sm-0 ml-3" type="submit">Logout</button>
+      </form>
+    {% endif %}
+  </nav>
+</div>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>Note</title>
+  {% load static %}
+  {% load bootstrap4 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery='full' %}
+  <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
+</head>
+<body>
+<div class="container-fluid">
+  {% csrf_token %}
+  {% block header %}{% endblock %}
+  {% block filter_sort %}{% endblock %}
+  {% block content %}{% endblock %}
+  {% block pagination %}{% endblock %}
+  {% block scripts %}{% endblock %}
+</div>
+</body>
+</html>
